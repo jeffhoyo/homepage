@@ -48,13 +48,13 @@ export default function Component({ service }) {
   //     )}`
   //   : null;
 
-  const uptime = wan["gw_system-stats"]
+  const mem = wan["gw_system-stats"]
   ? `${t("common.number", { value: wan["gw_system-stats"].mem, maximumFractionDigits: 1 })} ${t(
-      "unifi.days",
+      "unifi_custom.days",
     )}`
   : null;
 
-  if (!(wan.show || lan.show || wlan.show || uptime)) {
+  if (!(wan.show || lan.show || wlan.show || mem)) {
     return (
       <Container service={service}>
         <Block value={t("unifi_custom.empty_data")} />
@@ -64,7 +64,7 @@ export default function Component({ service }) {
 
   return (
     <Container service={service}>
-      {uptime && <Block label="unifi_custom.uptime" value={uptime} />}
+      {mem && <Block label="unifi_custom.mem" value={mem} />}
       
       {wan.show && <Block label="unifi_custom.wan" value={wan.status === "ok" ? t("unifi_custom.up") : t("unifi_custom.down")} />}
 
