@@ -42,11 +42,17 @@ export default function Component({ service }) {
     s.show = s.status !== "unknown"; // eslint-disable-line no-param-reassign
   });
 
+  // const uptime = wan["gw_system-stats"]
+  //   ? `${t("common.number", { value: wan["gw_system-stats"].uptime / 86400, maximumFractionDigits: 1 })} ${t(
+  //       "unifi.days",
+  //     )}`
+  //   : null;
+
   const uptime = wan["gw_system-stats"]
-    ? `${t("common.number", { value: wan["gw_system-stats"].uptime / 86400, maximumFractionDigits: 1 })} ${t(
-        "unifi.days",
-      )}`
-    : null;
+  ? `${t("common.number", { value: wan["gw_system-stats"].mem, maximumFractionDigits: 1 })} ${t(
+      "unifi.days",
+    )}`
+  : null;
 
   if (!(wan.show || lan.show || wlan.show || uptime)) {
     return (
@@ -59,13 +65,14 @@ export default function Component({ service }) {
   return (
     <Container service={service}>
       {uptime && <Block label="unifi_custom.uptime" value={uptime} />}
+      
       {wan.show && <Block label="unifi_custom.wan" value={wan.status === "ok" ? t("unifi_custom.up") : t("unifi_custom.down")} />}
 
       {lan.show && <Block label="unifi_custom.lan_users" value={t("common.number", { value: lan.num_user })} />}
       {lan.show && !wlan.show && (
         <Block label="unifi_custom.lan_devices" value={t("common.number", { value: lan.num_adopted })} />
       )}
-      
+
       {lan.show && !wlan.show && <Block label="unifi_custom.lan" value={lan.up ? t("unifi_custom.up") : t("unifi_custom.down")} />}
       {wlan.show && <Block label="unifi_custom.wlan_users" value={t("common.number", { value: wlan.num_user })} />}
 
