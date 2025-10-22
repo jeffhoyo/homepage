@@ -50,7 +50,7 @@ export default function Component({ service }) {
 
   const mem = wan["gw_system-stats"]
   ? `${t("common.number", { value: wan["gw_system-stats"].mem, maximumFractionDigits: 1 })} ${t(
-      "unifi_custom.days",
+      "unifi_custom.mb",
     )}`
   : null;
 
