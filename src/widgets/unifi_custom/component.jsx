@@ -65,9 +65,10 @@ export default function Component({ service }) {
       {lan.show && !wlan.show && (
         <Block label="unifi_custom.lan_devices" value={t("common.number", { value: lan.num_adopted })} />
       )}
+      
       {lan.show && !wlan.show && <Block label="unifi_custom.lan" value={lan.up ? t("unifi_custom.up") : t("unifi_custom.down")} />}
-
       {wlan.show && <Block label="unifi_custom.wlan_users" value={t("common.number", { value: wlan.num_user })} />}
+
       {wlan.show && !lan.show && (
         <Block label="unifi_custom.wlan_devices" value={t("common.number", { value: wlan.num_adopted })} />
       )}
