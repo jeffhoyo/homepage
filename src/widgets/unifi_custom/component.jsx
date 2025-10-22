@@ -54,6 +54,8 @@ export default function Component({ service }) {
     )}`
   : null;
 
+  console.log(mem);
+
   if (!(wan.show || lan.show || wlan.show || mem)) {
     return (
       <Container service={service}>
