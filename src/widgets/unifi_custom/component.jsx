@@ -90,8 +90,8 @@ export default function Component({ service }) {
   // FINAL RETURN - WAN Performance Focus
   return (
     <Container service={service}>
-      {uptime && <Block label="unifi.uptime" value={uptime} />}
       <Block label="WAN Status" value={statusElement} />
+      {uptime && <Block label="unifi.uptime" value={uptime} />}
       {ping && <Block label="Ping" value={getPingElement(ping)} />}
       {wanip && <Block label="WAN IP" value={wanip} />}
       <Block label="LAN USERS" value={numlan} />
