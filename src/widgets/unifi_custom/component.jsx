@@ -58,6 +58,8 @@ export default function Component({ service }) {
     : null;
 
   const wanip = wan["wan_ip"];
+  const numwlan = wlan["num_user"];
+  const numlan = lan["num_user"];
 
   // Color rules for ping
   const getPingElement = (ping) => {
@@ -88,11 +90,12 @@ export default function Component({ service }) {
   // FINAL RETURN - WAN Performance Focus
   return (
     <Container service={service}>
+      {uptime && <Block label="unifi.uptime" value={uptime} />}
       <Block label="WAN Status" value={statusElement} />
       {ping && <Block label="Ping" value={getPingElement(ping)} />}
       {wanip && <Block label="WAN IP" value={wanip} />}
-      <Block label="TX Rate" value={toKBps(wan["tx_bytes-r"])} />
-      <Block label="RX Rate" value={toKBps(wan["rx_bytes-r"])} />
+      <Block label="LAN USERS" value={numlan} />
+      <Block label="WLAN USERS" value={numwlan} />
     </Container>
   );
 }
