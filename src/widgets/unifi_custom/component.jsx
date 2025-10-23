@@ -57,6 +57,8 @@ export default function Component({ service }) {
     ? `${wanStats.availability.toFixed(2)}%`
     : null;
 
+  const wanip = wan["wan_ip"];
+
   // Color rules for ping
   const getPingElement = (ping) => {
     let color = "green";
@@ -88,7 +90,7 @@ export default function Component({ service }) {
     <Container service={service}>
       <Block label="WAN Status" value={statusElement} />
       {ping && <Block label="Ping" value={getPingElement(ping)} />}
-      {availability && <Block label="Availability" value={availability} />}
+      {wanip && <Block label="WAN IP" value={wanip} />}
       <Block label="TX Rate" value={toKBps(wan["tx_bytes-r"])} />
       <Block label="RX Rate" value={toKBps(wan["rx_bytes-r"])} />
     </Container>
