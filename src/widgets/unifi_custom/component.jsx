@@ -26,7 +26,7 @@ export default function Component({ service }) {
 
     return (
       <Container service={service}>
-        <Block label="unifi.uptime" />
+        <Block label="unifi.mb" />
         <Block label="unifi.wan" />
         <Block label="unifi.lan_users" />
         <Block label="unifi.wlan_users" />
