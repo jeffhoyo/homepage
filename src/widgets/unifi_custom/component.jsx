@@ -26,7 +26,7 @@ export default function Component({ service }) {
 
     return (
       <Container service={service}>
-        <Block label="unifi.mb" />
+        <Block label="unifi.uptime" />
         <Block label="unifi.wan" />
         <Block label="unifi.lan_users" />
         <Block label="unifi.wlan_users" />
@@ -48,6 +48,33 @@ export default function Component({ service }) {
       )}`
     : null;
 
+  // ✅ WAN-focused helpers
+  const toKBps = (bytes) => (bytes / 1024).toFixed(1) + " KB/s";
+
+  const wanStats = wan["uptime_stats"]?.WAN;
+  const ping = wanStats?.latency_average ?? null;
+  const availability = wanStats?.availability
+    ? `${wanStats.availability.toFixed(2)}%`
+    : null;
+
+  // Color rules for ping
+  const getPingElement = (ping) => {
+    let color = "green";
+    if (ping >= 150) color = "red";
+    else if (ping >= 50) color = "gold";
+
+    return (
+      <span>
+        <span style={{ color }}>{ping}</span> ms
+      </span>
+    );
+  };
+
+  // WAN status with icon + color
+  const statusElement = wan.up
+    ? <span style={{ color: "green" }}>🟢 UP</span>
+    : <span style={{ color: "red" }}>🔴 DOWN</span>;
+
   if (!(wan.show || lan.show || wlan.show || uptime)) {
     return (
       <Container service={service}>
@@ -56,22 +83,14 @@ export default function Component({ service }) {
     );
   }
 
+  // FINAL RETURN - WAN Performance Focus
   return (
     <Container service={service}>
-      {uptime && <Block label="unifi.uptime" value={uptime} />}
-      {wan.show && <Block label="unifi.wan" value={wan.status === "ok" ? t("unifi.up") : t("unifi.down")} />}
-
-      {lan.show && <Block label="unifi.lan_users" value={t("common.number", { value: lan.num_user })} />}
-      {lan.show && !wlan.show && (
-        <Block label="unifi.lan_devices" value={t("common.number", { value: lan.num_adopted })} />
-      )}
-      {lan.show && !wlan.show && <Block label="unifi.lan" value={lan.up ? t("unifi.up") : t("unifi.down")} />}
-
-      {wlan.show && <Block label="unifi.wlan_users" value={t("common.number", { value: wlan.num_user })} />}
-      {wlan.show && !lan.show && (
-        <Block label="unifi.wlan_devices" value={t("common.number", { value: wlan.num_adopted })} />
-      )}
-      {wlan.show && !lan.show && <Block label="unifi.wlan" value={wlan.up ? t("unifi.up") : t("unifi.down")} />}
+      <Block label="WAN Status" value={statusElement} />
+      {ping && <Block label="Ping" value={getPingElement(ping)} />}
+      {availability && <Block label="Availability" value={availability} />}
+      <Block label="TX Rate" value={toKBps(wan["tx_bytes-r"])} />
+      <Block label="RX Rate" value={toKBps(wan["rx_bytes-r"])} />
     </Container>
   );
 }
